@@ -4,10 +4,17 @@ import java.util.List;
 
 public class TestTask {
 
+    private final String romanNumb;
+    private final int arabNumb;
+
     TestTask(String romanNumb){
-        romanToArabic(romanNumb);
+        this.romanNumb = romanNumb;
+        this.arabNumb = romanToArabic(romanNumb);
     }
 
+    public int getArabNumb() {
+        return arabNumb;
+    }
 
     public static int romanToArabic(String input) {
         String romanNumeral = input.toUpperCase();
@@ -30,7 +37,6 @@ public class TestTask {
         if (romanNumeral.length() > 0) {
             throw new IllegalArgumentException(input + " cannot be converted to a Roman Numeral");
         }
-        System.out.println(result);
         return result;
     }
 
