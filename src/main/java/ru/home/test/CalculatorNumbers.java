@@ -1,20 +1,15 @@
 package ru.home.test;
 import java.util.ArrayList;
 
-public class СalculatorNumbers {
+public class CalculatorNumbers {
     private final static String PLUS = "+";
     private final static String MINUS = "-";
     private final static String DIVIDE = ":";
     private final static String MULTIPLY = "*";
     private final static String QUESTIONMARK = "?";
+    private static int resultExp;
 
-    СalculatorNumbers(String ex) {
-        try {
-            getExpression(ex);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    CalculatorNumbers(){}
 
 
     private static int solve(int first, int second, String sign){
@@ -29,20 +24,21 @@ public class СalculatorNumbers {
         return result;
     }
 
-    private static void outResult(int result){
+    private static String outResult(int result){
         System.out.println("Result: " + result);
+        return "" + result;
     }
 
-    public static void outResultRoman(int result)  {
+    public static String outResultRoman(int result)  {
         String resultRoman;
         ArabToRoman arabToRoman = new ArabToRoman();
         resultRoman = arabToRoman.arabicToRoman(result);
-        System.out.println(resultRoman);
+        return resultRoman;
     }
 
 
-    public static void getExpression(String expression) throws Exception {
-        int resultExp;
+    public static String getExpression(String expression) throws Exception {
+        String result;
         ArrayList<Integer> numb = new ArrayList<>();
         String sign = QUESTIONMARK;
         int indexSign = 0;
@@ -55,7 +51,7 @@ public class СalculatorNumbers {
             sign = switch (under_char[i]){
                 case '+' -> PLUS;
                 case '-' -> MINUS;
-                case ':' -> DIVIDE;
+                case '/' -> DIVIDE;
                 case '*' -> MULTIPLY;
                 default -> "?";
             };
@@ -87,20 +83,27 @@ public class СalculatorNumbers {
             secondArabNumb = second.getArabNumb();
 
             if (firstArabNumb == 0 && secondArabNumb == 0){
-                System.out.println("Error");
+                System.out.println("throws Exception");
             }else{
                 resultExp = solve(firstArabNumb, secondArabNumb, sign);
-                outResultRoman(resultExp);
-            }
-        } else if(sign.equals("-")){
-            System.out.println("throws Exception");
-        }else if (!numb.isEmpty() && sign.equals("?")) {
-            try {
-                resultExp = solve(numb.get(0), numb.get(1), sign);
-                outResult(resultExp);
-            } catch (Exception e){
-                throw new Exception("no correctly");
+                result = outResultRoman(resultExp);
+                return result;
             }
         }
+        else if (!numb.isEmpty() && !sign.equals("?")) {
+            try {
+                resultExp = solve(numb.get(0), numb.get(1), sign);
+//                result = outResult(resultExp);
+                return toString(resultExp);
+            } catch (Exception e){
+                throw new Exception("throws Exception");
+            }
+        }
+        return "no correctly";
     }
+
+    private static String toString(int exp){
+        return "" + exp;
+    }
+
 }
