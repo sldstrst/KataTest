@@ -4,8 +4,11 @@ import java.util.List;
 
 public class ArabToRoman {
     public String arabicToRoman(int number) {
-        if ((number <= 0) || (number > 40000)) {
-            throw new IllegalArgumentException(number + " is not in range (0,40000]");
+        if (number <= 0) {
+            throw new IllegalArgumentException(number + " в римской системе нет не положительных чисел");
+        }
+        if (number > 40000) {
+            throw new IllegalArgumentException(number + " число более 40000");
         }
 
         List<RomanNumeral> romanNumerals = RomanNumeral.getReverseSortedValues();

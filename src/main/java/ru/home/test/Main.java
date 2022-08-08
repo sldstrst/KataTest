@@ -3,10 +3,10 @@ package ru.home.test;
 import java.util.Scanner;
 
 public class Main {
+    private static boolean flag = true;
 
     public static void main(String[] args) {
         String result;
-        boolean flag = true;
 
         while (flag) {
             Scanner sc = new Scanner(System.in);
@@ -15,7 +15,7 @@ public class Main {
                 flag = false;
             }else {
                 result = calc(expression);
-                System.out.println(result);
+                if (!result.equals(expression)) System.out.println(result);
             }
         }
     }
@@ -25,6 +25,7 @@ public class Main {
         try {
             input = calc.getExpression(input);
         } catch (Exception e) {
+            flag = false;
             e.printStackTrace();
         }
         return input;

@@ -7,7 +7,6 @@ public class CalculatorNumbers {
     private final static String DIVIDE = ":";
     private final static String MULTIPLY = "*";
     private final static String QUESTIONMARK = "?";
-    private static int resultExp;
 
     CalculatorNumbers(){}
 
@@ -24,11 +23,6 @@ public class CalculatorNumbers {
         return result;
     }
 
-    private static String outResult(int result){
-        System.out.println("Result: " + result);
-        return "" + result;
-    }
-
     public static String outResultRoman(int result)  {
         String resultRoman;
         ArabToRoman arabToRoman = new ArabToRoman();
@@ -38,6 +32,7 @@ public class CalculatorNumbers {
 
 
     public static String getExpression(String expression) throws Exception {
+        String exit = "EXIT";
         String result;
         ArrayList<Integer> numb = new ArrayList<>();
         String sign = QUESTIONMARK;
@@ -67,11 +62,12 @@ public class CalculatorNumbers {
                 try {
                         numb.add(Integer.parseInt(word));
                     } catch (NumberFormatException e) {
-                        throw new NumberFormatException("Напишите выражение правильно");
+                        throw new NumberFormatException("Используются разные системы исчисления");
                     }
             }
         }
 
+        int resultExp;
         if (numb.isEmpty() && !sign.equals("?")){
             int firstArabNumb;
             int secondArabNumb;
@@ -82,8 +78,8 @@ public class CalculatorNumbers {
             TestTask second = new TestTask(secondRomanNumb);
             secondArabNumb = second.getArabNumb();
 
-            if (firstArabNumb == 0 && secondArabNumb == 0){
-                System.out.println("throws Exception");
+             if (firstArabNumb <= secondArabNumb && sign.equals("-")){
+                throw new Exception("Римские числа не могут быть отрицательными");
             }else{
                 resultExp = solve(firstArabNumb, secondArabNumb, sign);
                 result = outResultRoman(resultExp);
@@ -91,16 +87,23 @@ public class CalculatorNumbers {
             }
         }
         else if (!numb.isEmpty() && !sign.equals("?")) {
+
+            if (numb.size() >=3 ){
+                throw new Exception("формат математической операции не удовлетворяет заданию");
+            }
+
             try {
                 resultExp = solve(numb.get(0), numb.get(1), sign);
-//                result = outResult(resultExp);
                 return toString(resultExp);
             } catch (Exception e){
                 throw new Exception("throws Exception");
             }
         }
-        return "no correctly";
-    }
+        else if (numb.size() == 1){
+            throw new Exception("строка не является математической операцией");
+        }
+    return exit;
+}
 
     private static String toString(int exp){
         return "" + exp;
